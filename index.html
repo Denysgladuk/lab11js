@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Перетягування</title>
+</head>
+<body onload="init()">
+<h2 align="center" style="color: #ff00ff">Перетасківання червоного квадрата мишкою</h2>
+<h3 align="center">Встановіть курсор всередині червоного квадрата, натисніть ліву кнопку мишки і тягніть квадрат. <br>Для звільнення квадрата від захоплення відпустіть мишку.</h3>
+<div id='outer' style="position: absolute; left: 100px; top: 100px; width: 500px; height: 500px; border: 1px solid gray;">
+  <div id='inner' style="position: relative; width: 50px; height: 50px; background-color: red;"></div>
+</div>
+<script>
+flag = false;
+
+function init() {
+  document.getElementById('inner').onmousedown = zachvat;
+  document.onmouseup = osvobodi;
+  document.onmousemove = dragIt;
+}
+
+function dragIt(evt) {
+  var sobytie = (evt) ? evt : window.event;
+  if (flag) {
+    var inner = document.getElementById('inner');
+    var outer = document.getElementById('outer');
+    var left = sobytie.clientX - outer.offsetLeft - (inner.offsetWidth / 2);
+    var top = sobytie.clientY - outer.offsetTop - (inner.offsetHeight / 2);
+    left = Math.min(Math.max(left, 0), outer.offsetWidth - inner.offsetWidth);
+    top = Math.min(Math.max(top, 0), outer.offsetHeight - inner.offsetHeight);
+    inner.style.left = left + 'px';
+    inner.style.top = top + 'px';
+  }
+}
+
+function osvobodi() {
+  flag = false;
+}
+
+function zachvat() {
+  flag = true;
+}
+</script>
+</body>
+</html>
